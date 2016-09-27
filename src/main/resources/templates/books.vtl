@@ -1,0 +1,21 @@
+<h3>Book Collection:</h3>
+#if($books.size() > 0)
+  <ul>
+    #foreach ($item in $books)
+      <li><a href="/books/$item.getId()">$item.getTitle() by $item.getAuthor()</a></li>
+    #end
+  </ul>
+#else
+  <p>There are no books in this collection</p>
+#end
+
+<hr>
+<h3>Add a New Item:</h3>
+<form action="/books/new" method="post">
+  <label for="new-item-title">Title: </label>
+  <input name="new-item-title" type="text">
+  <label for="new-item-author">Author: </label>
+  <input name="new-item-author" type="text">
+  <input name="new-item-type" type="hidden" value="1">
+  <button type="submit" class="btn btn-success">Add New Book</button>
+</form>

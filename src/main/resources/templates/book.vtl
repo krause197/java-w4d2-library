@@ -1,0 +1,41 @@
+<h2>Book Details</h2>
+Title: $book.getTitle()
+<br>Author: $book.getAuthor()
+
+<h2>Item Checkout</h2>
+#if (!$book.getCurrentRecord())
+  <form action="/books/checkout" method="post">
+    <select name='item-checkout-patronid' type='text'>
+     #foreach($patron in $patrons)
+       <option value="$patron.getId()">$patron.getName()</option>
+     #end
+    </select>
+    <input name="item-checkout-itemid" type="hidden" value="$book.getId()">
+    <button type="submit" class="btn btn-success">Check Out</button>
+  </form>
+#else
+
+    <p>Item is Checked Out By <a href="/patrons/$book.getCurrentRecord().getPatronId()">  $book.getCurrentRecord().getPatronName()</a></p>
+    <br>Date Due Back: $book.getCurrentRecord().getDueDate()
+    <br>Times Renewed: $book.getCurrentRecord().getTimesRenewed()
+
+    <span>
+    <form style="display: inline;" action="/books/checkin" method="post">
+      <input name="item-checkin-recordid" type="hidden" value="$book.getCurrentRecord().getId()">
+      <input name="item-checkin-itemid" type="hidden" value="$book.getId()">
+      <button type="submit" class="btn btn-lg btn-success">Check In Book</button>
+    </form>
+
+    <form style="display: inline;" action="/books/renew" method="post">
+      <input name="item-renew-itemid" type="hidden" value="$book.getId()">
+      <button type="submit" class="btn btn-lg btn-danger">Renew Book</button>
+    </form>
+  </span>
+
+#end
+
+<hr>
+<form style="display: inline;" action="/books/delete" method="post">
+  <input name="item-delete-itemid" type="hidden" value="$book.getId()">
+  <button type="submit" class="btn btn-lg btn-success">Delete Book</button>
+</form>

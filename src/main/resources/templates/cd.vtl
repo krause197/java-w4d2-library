@@ -1,0 +1,39 @@
+<h2>CD Details</h2>
+Title: $cd.getTitle()
+<br>Artist: $cd.getArtist()
+
+<h2>Item Checkout</h2>
+#if (!$cd.getCurrentRecord())
+  <form action="/cds/checkout" method="post">
+    <select name='item-checkout-patronid' type='text'>
+     #foreach($patron in $patrons)
+       <option value="$patron.getId()">$patron.getName()</option>
+     #end
+    </select>
+    <input name="item-checkout-itemid" type="hidden" value="$cd.getId()">
+    <button type="submit" class="btn btn-success">Check Out</button>
+  </form>
+#else
+
+    <p>Item is Checked Out By <a href="/patrons/$cd.getCurrentRecord().getPatronId()">  $cd.getCurrentRecord().getPatronName()</a></p>
+
+    <span>
+    <form style="display: inline;" action="/cds/checkin" method="post">
+      <input name="item-checkin-recordid" type="hidden" value="$cd.getCurrentRecord().getId()">
+      <input name="item-checkin-itemid" type="hidden" value="$cd.getId()">
+      <button type="submit" class="btn btn-lg btn-success">Check In CD</button>
+    </form>
+
+    <form style="display: inline;" action="/clients/$client.getId()/remove" method="post">
+      <button type="submit" class="btn btn-lg btn-danger">Renew CD</button>
+    </form>
+  </span>
+
+#end
+
+
+<hr>
+<form style="display: inline;" action="/cds/delete" method="post">
+  <input name="item-delete-itemid" type="hidden" value="$cd.getId()">
+  <button type="submit" class="btn btn-lg btn-success">Delete CD</button>
+</form>

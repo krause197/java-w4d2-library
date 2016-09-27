@@ -1,0 +1,10 @@
+CREATE TABLE itemrecords (id serial PRIMARY KEY, patronid int, itemid int, datecheckedout timestamp, datecheckedin timestamp, timesRenewed int);
+CREATE TABLE items (id serial PRIMARY KEY, title varchar, author varchar, itemtype int, newestrecord int, artist varchar, issue varchar);
+CREATE TABLE itemtypes (id serial PRIMARY KEY, name varchar UNIQUE);
+CREATE TABLE patrons (id serial PRIMARY KEY, name varchar, email varchar);
+
+CREATE DATABASE library;
+CREATE DATABASE library_test WITH TEMPLATE library;
+
+UPDATE itemtypes SET name = 'Wes Anderson' WHERE id = 1;
+DELETE FROM itemrecords WHERE id = 5;
